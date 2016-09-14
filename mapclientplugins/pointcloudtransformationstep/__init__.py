@@ -20,7 +20,7 @@ This file is part of MAP Client. (http://launchpad.net/mapclient)
 __version__ = '0.1.0'
 __author__ = 'Ju Zhang'
 __stepname__ = 'Point Cloud Transformation'
-__location__ = 'https://github.com/mapclient-plugins/pointcloudtransformationstep/archive/master.zip'
+__location__ = 'https://github.com/mapclient-plugins/pointcloudtransformationstep/archive/v0.1.0.zip'
 
 # import class that derives itself from the step mountpoint.
 from mapclientplugins.pointcloudtransformationstep import step
