@@ -73,7 +73,7 @@ class PointCloudTransformationStep(WorkflowStepMountPoint):
         try:
             transformFunction = _transformFunctions[self._transform.transformType]
         except KeyError:
-            raise RuntimeError, 'unknown transform type: ' + self._transform.transformType
+            raise RuntimeError('unknown transform type: ' + self._transform.transformType)
 
         if 'about_point' not in self._transform.transformType:
             self._outputPoints = transformFunction(
