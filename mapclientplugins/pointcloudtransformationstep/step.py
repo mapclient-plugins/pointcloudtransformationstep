@@ -17,9 +17,7 @@ This file is part of MAP Client. (http://launchpad.net/mapclient)
     You should have received a copy of the GNU General Public License
     along with MAP Client.  If not, see <http://www.gnu.org/licenses/>..
 '''
-import os
 
-from PySide import QtGui
 import json
 
 from mapclient.mountpoints.workflowstep import WorkflowStepMountPoint
@@ -28,12 +26,13 @@ from mapclientplugins.pointcloudtransformationstep.configuredialog import Config
 from gias2.common import transform3D
 
 _transformFunctions = {
-                'affine': transform3D.transformAffine,
-                'rigid': transform3D.transformRigid3D,
-                'rigidscale': transform3D.transformRigidScale3D,
-                'rigid_about_point': transform3D.transformRigid3DAboutP,
-                'rigidscale_about_point': transform3D.transformRigidScale3DAboutP,
-                }
+    'affine': transform3D.transformAffine,
+    'rigid': transform3D.transformRigid3D,
+    'rigidscale': transform3D.transformRigidScale3D,
+    'rigid_about_point': transform3D.transformRigid3DAboutP,
+    'rigidscale_about_point': transform3D.transformRigidScale3DAboutP,
+}
+
 
 class PointCloudTransformationStep(WorkflowStepMountPoint):
     '''
@@ -43,7 +42,7 @@ class PointCloudTransformationStep(WorkflowStepMountPoint):
 
     def __init__(self, location):
         super(PointCloudTransformationStep, self).__init__('Point Cloud Transformation', location)
-        self._configured = False # A step cannot be executed until it has been configured.
+        self._configured = False  # A step cannot be executed until it has been configured.
         self._category = 'Registration'
         # Add any other initialisation code here:
         # Ports:
@@ -63,7 +62,6 @@ class PointCloudTransformationStep(WorkflowStepMountPoint):
         self._transform = None
         self._outputPoints = None
 
-
     def execute(self):
         '''
         Add your code here that will kick off the execution of the step.
@@ -75,19 +73,19 @@ class PointCloudTransformationStep(WorkflowStepMountPoint):
         try:
             transformFunction = _transformFunctions[self._transform.transformType]
         except KeyError:
-            raise RuntimeError, 'unknown transform type: '+self._transform.transformType
+            raise RuntimeError('unknown transform type: ' + self._transform.transformType)
 
         if 'about_point' not in self._transform.transformType:
             self._outputPoints = transformFunction(
-                                    self._inputPoints,
-                                    self._transform.getT(),
-                                    )
+                self._inputPoints,
+                self._transform.getT(),
+            )
         else:
             self._outputPoints = transformFunction(
-                                    self._inputPoints,
-                                    self._transform.getT(),
-                                    self._transform.getP(),
-                                    )
+                self._inputPoints,
+                self._transform.getT(),
+                self._transform.getP(),
+            )
         self._doneExecution()
 
     def setPortData(self, index, dataIn):
@@ -97,9 +95,9 @@ class PointCloudTransformationStep(WorkflowStepMountPoint):
         uses port for this step then the index can be ignored.
         '''
         if index == 0:
-            self._inputPoints = dataIn # ju#pointcoordinates
+            self._inputPoints = dataIn  # ju#pointcoordinates
         else:
-            self._transform = dataIn # ju#geometrictransform
+            self._transform = dataIn  # ju#geometrictransform
 
     def getPortData(self, index):
         '''
@@ -107,7 +105,7 @@ class PointCloudTransformationStep(WorkflowStepMountPoint):
         The index is the index of the port in the port list.  If there is only one
         provides port for this step then the index can be ignored.
         '''
-        return self._outputPoints # ju#pointcoordinates
+        return self._outputPoints  # ju#pointcoordinates
 
     def configure(self):
         '''
@@ -117,15 +115,15 @@ class PointCloudTransformationStep(WorkflowStepMountPoint):
         then set:
             self._configured = True
         '''
-        dlg = ConfigureDialog()
+        dlg = ConfigureDialog(self._main_window)
         dlg.identifierOccursCount = self._identifierOccursCount
         dlg.setConfig(self._config)
         dlg.validate()
         dlg.setModal(True)
-        
+
         if dlg.exec_():
             self._config = dlg.getConfig()
-        
+
         self._configured = dlg.validate()
         self._configuredObserver()
 
@@ -159,5 +157,3 @@ class PointCloudTransformationStep(WorkflowStepMountPoint):
         d.identifierOccursCount = self._identifierOccursCount
         d.setConfig(self._config)
         self._configured = d.validate()
-
-

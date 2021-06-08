@@ -24,4 +24,3 @@ __location__ = 'https://github.com/mapclient-plugins/pointcloudtransformationste
 
 # import class that derives itself from the step mountpoint.
 from mapclientplugins.pointcloudtransformationstep import step
-
