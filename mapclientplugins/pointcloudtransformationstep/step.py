@@ -23,7 +23,7 @@ import json
 from mapclient.mountpoints.workflowstep import WorkflowStepMountPoint
 from mapclientplugins.pointcloudtransformationstep.configuredialog import ConfigureDialog
 
-from gias2.common import transform3D
+from gias3.common import transform3D
 
 _transformFunctions = {
     'affine': transform3D.transformAffine,

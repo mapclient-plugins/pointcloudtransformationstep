@@ -5,7 +5,7 @@ Step for applying an input geometric transformation to a point cloud
 
 Requires
 --------
-- GIAS2 : https://bitbucket.org/jangle/gias2
+- GIAS3- Common : https://github.com/musculoskeletal/gias3.common
 
 Inputs
 ------
